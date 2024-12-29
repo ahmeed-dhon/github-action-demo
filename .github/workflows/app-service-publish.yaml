@@ -44,5 +44,5 @@ jobs:
 
     - uses: azure/webapps-deploy@v2
       with:
-        app-name: 'flexidev-test'
+        app-name: 'flexidev-test2'
         images: 'docker.io/ahmeeddhon/flexi-test:${{ github.sha }}'
