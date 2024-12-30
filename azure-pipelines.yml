@@ -1,0 +1,39 @@
+# Docker
+# Build a Docker image
+# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
+
+trigger:
+- main
+
+resources:
+- repo: self
+
+variables:
+  tag: '$(Build.BuildId)'
+
+stages:
+- stage: Build
+  displayName: Build image
+  jobs:
+  - job: Build
+    displayName: Build
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+    - task: Docker@2
+      inputs:
+        containerRegistry: 'dockerhub'
+        repository: 'flexi-test'
+        command: 'buildAndPush'
+        Dockerfile: '**/Dockerfile'
+        tags: |
+          $(Build.BuildId)
+    - task: AzureRmWebAppDeployment@4
+      inputs:
+        ConnectionType: 'AzureRM'
+        azureSubscription: 'Azure subscription 1(ad5f5d54-c16d-4333-8645-13f68e00f23f)'
+        appType: 'webAppContainer'
+        WebAppName: 'flexidev-test2'
+        DockerNamespace: 'docker.io/ahmeeddhon/'
+        DockerRepository: 'flexi-test'
+        DockerImageTag: '$(Build.BuildId)'
