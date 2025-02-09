@@ -24,10 +24,6 @@ jobs:
         AZURE_LOGIN_POST_CLEANUP: true
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
-        # client-id: ${{ secrets.AZURE_CLIENT_ID }}
-        # tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-        # subscription-id: ad5f5d54-c16d-4333-8645-13f68e00f23f
-        # allow-no-subscriptions: true
 
     - name: login to docker registry
       uses: docker/login-action@v3
@@ -40,9 +36,9 @@ jobs:
       with:
         context: .
         push: true
-        tags: ahmeeddhon/flexi-test:${{ github.sha }}
+        tags: ahmeeddhon/github-action-demo:${{ github.sha }}
 
     - uses: azure/webapps-deploy@v2
       with:
-        app-name: 'flexidev-test2'
-        images: 'docker.io/ahmeeddhon/flexi-test:${{ github.sha }}'
+        app-name: 'github-action-demo'
+        images: 'docker.io/ahmeeddhon/github-action-demo:${{ github.sha }}'
